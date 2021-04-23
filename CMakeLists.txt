@@ -3,4 +3,4 @@ project(smash)
 
 set(CMAKE_CXX_STANDARD 11)
 
-add_executable(smash commands.cpp signals.cpp smash.cpp signals.h commands.h)
+add_executable(smash commands.cpp signals.cpp smash.cpp signals.h commands.h terminal_class.cpp terminal_class.h)

@@ -13,7 +13,7 @@
 // Returns: 0 - success,1 - failure
 //**************************************************************************************
 using namespace std;
-int ExeCmd(void* jobs, char* lineSize, char* cmdString)
+int ExeCmd(void* jobs, char* lineSize, char* cmdString, terminal& my_terminal)
 {
 	char* cmd; 
 	char* args[MAX_ARG];
@@ -32,6 +32,18 @@ int ExeCmd(void* jobs, char* lineSize, char* cmdString)
 			num_arg++; 
  
 	}
+
+	if (strcmp(args[0], "history")){
+       /* for (i=1; i<num_arg; i++)
+        {
+            args[i] = strtok(NULL, delimiters);
+            if (args[i] != NULL)
+                num_arg++;
+
+        }*/
+
+        my_terminal.push_hist(args[0]);
+	}
 //******************************************* our additions
     bool last_cd_exist = false;
 /*************************************************/
@@ -39,7 +51,7 @@ int ExeCmd(void* jobs, char* lineSize, char* cmdString)
 // ARE IN THIS CHAIN OF IF COMMANDS. PLEASE ADD
 // MORE IF STATEMENTS AS REQUIRED
 /*************************************************/
-	if (!strcmp(cmd, "cd") ) {
+	/*if (!strcmp(cmd, "cd") ) {
 
         if ((args[1] == "-") && (last_cd_exist));
         {
@@ -61,9 +73,9 @@ int ExeCmd(void* jobs, char* lineSize, char* cmdString)
             }
         }
     }
-	
+	*/
 	/*************************************************/
-	else if (!strcmp(cmd, "pwd")) 
+	/*else*/ if (!strcmp(cmd, "pwd"))
 	{
         char temp[MAXPATHLEN];
         cout << ( getcwd(temp, sizeof(temp)) ? std::string( temp ) : std::string("") ) << endl;
@@ -96,14 +108,19 @@ int ExeCmd(void* jobs, char* lineSize, char* cmdString)
   		
 	}
 	/*************************************************/
-	else if (!strcmp(cmd, "quit"))
+	else if (!strcmp(cmd, "history"))
 	{
-   		
+   		my_terminal.print_hist();
 	} 
 	/*************************************************/
+    else if (!strcmp(cmd, "quit"))
+    {
+
+    }
+        /*************************************************/
 	else // external command
 	{
-	    clear_memory;
+	   // clear_memory;
  		ExeExternal(args, cmdString);
 	 	return 0;
 	}
